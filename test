@@ -1,0 +1,38 @@
+const puppeteer = require('puppeteer');
+
+const URL_TEST = 'https://habr.com/ru/';
+
+async function testHabr() {
+
+console.log('Запуск браузера');
+const browser = await puppeteer.launch({headless: false, slowMo: 100});
+
+console.log('Создание новой вкладки в браузере');
+const page = await browser.newPage();
+
+console.log('Шаг 1: Открыть страницу');
+await page.goto(URL_TEST);
+
+
+console.log('Шаг 2.1: открыть поисковую строку');
+const searchForm = await page.$('#search-form-btn');
+await searchForm.click();
+
+console.log('Шаг 2.2: заполнение поля поиска');
+const searchInput = await page.$('#search-form-field');
+await searchInput.type('Dins');
+
+console.log('Шаг 2.3: нажатие клавиши enter');
+await page.keyboard.press('Enter');
+
+console.log('Ожидание перехода в страницу поисковых результатов');
+await page.waitForNavigation();
+
+console.log('Шаг 3: переход на вкладку');
+await clickText('Хабы и компании: 1');
+
+console.log('Закрытие браузера');
+await browser.close();
+}
+
+testHabr();
