@@ -29,10 +29,18 @@ console.log('Ожидание перехода в страницу поиско�
 await page.waitForNavigation();
 
 console.log('Шаг 3: переход на вкладку');
-await clickText('Хабы и компании');
+const links = await page.$$('h3');
+console.log (links.length);
+const buttons = await page.$x("//a[contains(., 'ХАБЫ')]");
+console.log (buttons);
+const [button] = buttons;
+console.log (button); 
+console.log (button.parent);
+button.parent.click();
 
 console.log('Закрытие браузера');
 await browser.close();
+
 }
 
 testHabr();
